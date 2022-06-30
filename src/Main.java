@@ -54,11 +54,11 @@ public class Main {
         Form form;
 
         while ((form = interview.nextForm()) != null && !form.isEmpty()) {
-            System.out.println("starting next interview form..");
+            // System.out.println("starting next interview form..");
 
             for (int i = 0; i < form.getActiveQuestions().size(); i++) {
                 Question question = form.getActiveQuestions().get(i);
-                System.out.println("enter answer for Q" + (i + 1) + " (" + question.getName() + "): ");
+                System.out.println("############### QUESTION: " + question.getName());
 
                 boolean unknown = BasicProperties.isUnknownVisible(question);
                 QuestionValue value = Unknown.getInstance();
@@ -72,7 +72,7 @@ public class Main {
 
                 // answer question
                 session.getBlackboard().addValueFact(FactFactory.createUserEnteredFact(question, value));
-                System.out.println("--> solution: " + ValueUtils.getVerbalization(question, value, Locale.ROOT));
+                System.out.println("--> " + ValueUtils.getVerbalization(question, value, Locale.ROOT));
             }
         }
         saveToFile(session);

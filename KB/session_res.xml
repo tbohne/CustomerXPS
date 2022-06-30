@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <repository>
-  <session changed="2022-06-30 09:45:29.020 +0200" created="2022-06-30 09:45:29.020 +0200" id="54672b53-3b7d-40d3-a574-88df9149120d">
+  <session changed="2022-06-30 09:52:06.705 +0200" created="2022-06-30 09:52:06.705 +0200" id="8cfe800f-0fba-4e80-ae36-e0582a183add">
     <name/>
     <facts>
       <valueFacts>
@@ -33,13 +33,13 @@
       </interviewFacts>
     </facts>
     <protocol>
-      <entry date="2022-06-30 09:45:31.742 +0200" objectName="Fehlerbild" psm="de.d3web.indication.inference.PSMethodUserSelected" type="fact">
+      <entry date="2022-06-30 09:52:08.450 +0200" objectName="Fehlerbild" psm="de.d3web.indication.inference.PSMethodUserSelected" type="fact">
         <choiceValue>Lichtanlage defekt</choiceValue>
       </entry>
-      <entry date="2022-06-30 09:45:33.326 +0200" objectName="Lampenenergie" psm="de.d3web.indication.inference.PSMethodUserSelected" type="fact">
+      <entry date="2022-06-30 09:52:14.164 +0200" objectName="Lampenenergie" psm="de.d3web.indication.inference.PSMethodUserSelected" type="fact">
         <choiceValue>Batterie</choiceValue>
       </entry>
-      <entry date="2022-06-30 09:45:34.041 +0200" objectName="Reihenfolge Batterien" psm="de.d3web.indication.inference.PSMethodUserSelected" type="fact">
+      <entry date="2022-06-30 09:52:17.299 +0200" objectName="Reihenfolge Batterien" psm="de.d3web.indication.inference.PSMethodUserSelected" type="fact">
         <choiceValue>falsche Reihenfolge</choiceValue>
       </entry>
     </protocol>
