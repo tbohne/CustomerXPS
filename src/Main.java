@@ -2,10 +2,7 @@ import com.denkbares.plugin.JPFPluginManager;
 import com.denkbares.strings.Strings;
 import de.d3web.core.io.PersistenceManager;
 import de.d3web.core.knowledge.KnowledgeBase;
-import de.d3web.core.knowledge.terminology.Choice;
-import de.d3web.core.knowledge.terminology.Question;
-import de.d3web.core.knowledge.terminology.QuestionChoice;
-import de.d3web.core.knowledge.terminology.QuestionNum;
+import de.d3web.core.knowledge.terminology.*;
 import de.d3web.core.knowledge.terminology.info.BasicProperties;
 import de.d3web.core.knowledge.terminology.info.MMInfo;
 import de.d3web.core.knowledge.terminology.info.NumericalInterval;
@@ -31,7 +28,7 @@ import java.util.Locale;
 public class Main {
 
     public static String D3WEB = "../d3web-KnowWE-distribution-12.9-SNAPSHOT/d3web/lib";
-    public static String KB = "./KB/AW4.0.d3web";
+    public static String KB = "./KB/CustomerXPS.d3web";
     public static String SESSION_RES = "./KB/session_res.xml";
 
     /**
@@ -73,6 +70,12 @@ public class Main {
                 // answer question
                 session.getBlackboard().addValueFact(FactFactory.createUserEnteredFact(question, value));
                 System.out.println("--> " + ValueUtils.getVerbalization(question, value, Locale.ROOT));
+
+                if (session.getBlackboard().getSolutions(Rating.State.ESTABLISHED).size() > 0) {
+                    Solution sol = session.getBlackboard().getSolutions(Rating.State.ESTABLISHED).get(0);
+                    System.out.println("SOLUTION: " + sol.getName());
+                    System.out.println("RECOMMENDED ACTION: " + sol.getInfoStore().getValue(MMInfo.DESCRIPTION));
+                }
             }
         }
         saveToFile(session);
