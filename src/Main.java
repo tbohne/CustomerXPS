@@ -5,7 +5,6 @@ import de.d3web.core.knowledge.KnowledgeBase;
 import de.d3web.core.knowledge.terminology.*;
 import de.d3web.core.knowledge.terminology.info.BasicProperties;
 import de.d3web.core.knowledge.terminology.info.MMInfo;
-import de.d3web.core.knowledge.terminology.info.NumericalInterval;
 import de.d3web.core.records.SessionConversionFactory;
 import de.d3web.core.records.io.SessionPersistenceManager;
 import de.d3web.core.session.QuestionValue;
@@ -14,7 +13,6 @@ import de.d3web.core.session.SessionFactory;
 import de.d3web.core.session.ValueUtils;
 import de.d3web.core.session.blackboard.FactFactory;
 import de.d3web.core.session.values.ChoiceValue;
-import de.d3web.core.session.values.NumValue;
 import de.d3web.core.session.values.Unknown;
 import de.d3web.interview.Form;
 import de.d3web.interview.Interview;
@@ -51,7 +49,6 @@ public class Main {
         Form form;
 
         while ((form = interview.nextForm()) != null && !form.isEmpty()) {
-            // System.out.println("starting next interview form..");
 
             for (int i = 0; i < form.getActiveQuestions().size(); i++) {
                 Question question = form.getActiveQuestions().get(i);
@@ -63,8 +60,9 @@ public class Main {
                 if (question instanceof QuestionChoice) {
                     value = processChoices(question, unknown);
                 } else if (question instanceof QuestionNum) {
-                    NumericalInterval range = question.getInfoStore().getValue(BasicProperties.QUESTION_NUM_RANGE);
-                    value = new NumValue(readNumValue(range));
+                    // TODO: to be implemented
+                    System.out.println("numerical value handling not yet implemented..");
+                    System.exit(0);
                 }
 
                 // answer question
@@ -114,39 +112,11 @@ public class Main {
      */
     private static void saveToFile(Session session) throws IOException {
         OutputStream out = new FileOutputStream(SESSION_RES);
-        SessionPersistenceManager.getInstance().saveSessions(out, SessionConversionFactory.copyToSessionRecord(session));
+        SessionPersistenceManager.getInstance().saveSessions(
+                out, SessionConversionFactory.copyToSessionRecord(session)
+        );
         out.flush();
         out.close();
-    }
-
-    /**
-     * Reads a numerical value from the user.
-     *
-     * @param range - range to read value form
-     * @return read value
-     * @throws IOException
-     */
-    private static double readNumValue(NumericalInterval range) throws IOException {
-        String line = "";
-        while (true) {
-            try {
-                BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
-                line = keyboard.readLine();
-                double number = Double.parseDouble(line);
-                if (range != null
-                        && (range.isLeftOpen() && number <= range.getLeft()
-                        || !range.isLeftOpen() && number < range.getLeft()
-                        || range.isRightOpen() && number >= range.getRight()
-                        || !range.isRightOpen() && number > range.getRight())) {
-                    System.out.println();
-                    System.out.print("please enter a value in the following range: " + range + "  ");
-                } else {
-                    return number;
-                }
-            } catch (NumberFormatException ignore) {
-                System.out.println("unable to parse number: '" + line + "'");
-            }
-        }
     }
 
     /**
@@ -170,12 +140,11 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        System.out.println("test");
+        System.out.println("Running customer XPS..");
         try {
             demo();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 }
