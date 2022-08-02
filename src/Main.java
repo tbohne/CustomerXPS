@@ -26,8 +26,8 @@ import java.util.Locale;
 public class Main {
 
     public static final String D3WEB = "../d3web-KnowWE-distribution-12.9-SNAPSHOT/d3web/lib";
-    public static final String KB = "./KB/CustomerXPS.d3web";
-    public static final String SESSION_RES = "./KB/session_res.xml";
+    public static final String KB = "./res/CustomerXPS.d3web";
+    public static final String SESSION_RES = "./res/session_res.xml";
 
     /**
      * Demo interview session based on the provided KB.
