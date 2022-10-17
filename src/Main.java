@@ -23,6 +23,10 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 public class Main {
 
@@ -149,6 +153,12 @@ public class Main {
         try {
             GatewayServer server = new GatewayServer(new Main());
             server.start();
+
+            Logger rootLogger = LogManager.getLogManager().getLogger("");
+            rootLogger.setLevel(Level.SEVERE);
+            for (Handler h : rootLogger.getHandlers()) {
+                h.setLevel(Level.SEVERE);
+            }
             System.out.println("server runs..");
         } catch (Exception e) {
             e.printStackTrace();
