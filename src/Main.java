@@ -17,6 +17,7 @@ import de.d3web.core.session.values.Unknown;
 import de.d3web.interview.Form;
 import de.d3web.interview.Interview;
 import de.d3web.interview.inference.PSMethodInterview;
+import py4j.GatewayServer;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -34,7 +35,7 @@ public class Main {
      *
      * @throws IOException
      */
-    public static void demo() throws IOException {
+    public static String demo() throws IOException {
 
         // init persistence plugins
         JPFPluginManager.init(D3WEB);
@@ -47,6 +48,7 @@ public class Main {
         Session session = SessionFactory.createSession(knowledgeBase);
         Interview interview = session.getSessionObject(session.getPSMethodInstance(PSMethodInterview.class));
         Form form;
+        String solution = "";
 
         while ((form = interview.nextForm()) != null && !form.isEmpty()) {
 
@@ -72,11 +74,13 @@ public class Main {
                 if (session.getBlackboard().getSolutions(Rating.State.ESTABLISHED).size() > 0) {
                     Solution sol = session.getBlackboard().getSolutions(Rating.State.ESTABLISHED).get(0);
                     System.out.println("SOLUTION: " + sol.getName());
+                    solution = sol.getName();
                     System.out.println("RECOMMENDED ACTION: " + sol.getInfoStore().getValue(MMInfo.DESCRIPTION));
                 }
             }
         }
         saveToFile(session);
+        return solution;
     }
 
     /**
@@ -111,6 +115,7 @@ public class Main {
      * @throws IOException
      */
     private static void saveToFile(Session session) throws IOException {
+        System.out.println("saving session to file..");
         OutputStream out = new FileOutputStream(SESSION_RES);
         SessionPersistenceManager.getInstance().saveSessions(
                 out, SessionConversionFactory.copyToSessionRecord(session)
@@ -142,7 +147,9 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Running customer XPS..");
         try {
-            demo();
+            GatewayServer server = new GatewayServer(new Main());
+            server.start();
+            System.out.println("server runs..");
         } catch (Exception e) {
             e.printStackTrace();
         }
