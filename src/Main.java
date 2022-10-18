@@ -32,14 +32,15 @@ public class Main {
 
     public static final String D3WEB = "../d3web-KnowWE-distribution-12.9-SNAPSHOT/d3web/lib";
     public static final String KB = "./res/CustomerXPS.d3web";
-    public static final String SESSION_RES = "./res/session_res.xml";
 
     /**
      * Demo interview session based on the provided KB.
      *
+     * @param sessionPath - directory path to save session to
+     * @return XPS solution (initial diagnosis)
      * @throws IOException
      */
-    public static String demo() throws IOException {
+    public static String demo(String sessionPath) throws IOException {
 
         // init persistence plugins
         JPFPluginManager.init(D3WEB);
@@ -83,7 +84,7 @@ public class Main {
                 }
             }
         }
-        saveToFile(session);
+        saveToFile(session, sessionPath);
         return solution;
     }
 
@@ -116,11 +117,12 @@ public class Main {
      * Saves the session to file.
      *
      * @param session - session to be saved
+     * @param sessionPath - directory path to save session to
      * @throws IOException
      */
-    private static void saveToFile(Session session) throws IOException {
+    private static void saveToFile(Session session, String sessionPath) throws IOException {
         System.out.println("saving session to file..");
-        OutputStream out = new FileOutputStream(SESSION_RES);
+        OutputStream out = new FileOutputStream(sessionPath);
         SessionPersistenceManager.getInstance().saveSessions(
                 out, SessionConversionFactory.copyToSessionRecord(session)
         );
